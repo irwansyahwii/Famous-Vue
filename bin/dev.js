@@ -2,6 +2,7 @@
 
 'use strict';
 
+var vue = require('vue')
 var browserify = require('browserify');
 var watchify = require('watchify');
 var path = require('path');
@@ -12,6 +13,7 @@ var serveStatic = require('serve-static');
 var chalk = require('chalk');
 
 var b = browserify(path.resolve('./src/index.js'), watchify.args);
+b.transform('vueify');
 var w = watchify(b);
 
 var bytes, time;
