@@ -27,7 +27,22 @@
         </style>
     </head>
     <body>
-        <app></app>
+        
+            <image-view v-ref:logo src="images/famous_logo.png" v-on:click="onImageClicked"
+                size-mode="absolute, absolute, absolute" 
+                absolute-size="250, 250"
+                align="0.5, 0.5"
+                origin="0.5,0.5"
+                mount-point="0.5,0.5"></image-view>
+
+            <image-view src="images/famous_logo.png"  v-on:click="onImageClicked"
+                size-mode="absolute, absolute, absolute" 
+                absolute-size="250, 250"
+                align="0.2, 0.5"
+                origin="0.5,0.5"
+                mount-point="0.5,0.5"></image-view>
+
+
         <script src="bundle.js"></script>
     </body>
 </html>
