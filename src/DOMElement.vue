@@ -35,6 +35,14 @@
                     default: ''
                 }
             }
+
+            this.methods = {}
+
+            this.methods.setContent = this.setContent
+        }
+
+        setContent(content){
+            this.$options.famousObject.setContent(content)
         }
 
         onCompiled(){            
@@ -61,6 +69,7 @@
             }            
             else{
                 this.$options.famousObject.setContent(this.$el.innerHTML)    
+                // this.$options.famousObject.setContent(this.content)    
             }
         }
     }

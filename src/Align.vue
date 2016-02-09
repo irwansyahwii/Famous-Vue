@@ -10,7 +10,7 @@
             super()
 
             this.props = {
-                set: {
+                value: {
                     type: String,
                     default: '',
                     famousType: 'string',
@@ -25,6 +25,15 @@
                     default: null
                 }
             }
+
+            this.methods.set = this.set
+        }
+
+        set(x,y,z, transition, callback){
+            let transitionValue = transition || this.transition
+            let callbackValue = callback || this.callback
+            
+            this.$options.famousObject.set(x,y,z, transitionValue, callbackValue)
         }
 
         onBeforeCompile(){
@@ -42,7 +51,7 @@
         onCompiled(){
             super.onCompiled()
 
-            let setValues = this.parseFloatPropertyWithComma(this.set, 'set', 0, true)
+            let setValues = this.parseFloatPropertyWithComma(this.value, 'value', 0, true)
             let transitionValue = this.transition
             let callbackValue = this.callback
 

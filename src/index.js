@@ -1,13 +1,6 @@
 import Vue from 'vue'
 import FamousVue from './FamousVue'
-import UIHeader from './Twitterus/UIHeader.vue'
-import Swapper from './Twitterus/Swapper.vue'
-import UIFooter from './Twitterus/UIFooter.vue'
-
-
-Vue.component('ui-header', UIHeader)
-Vue.component('swapper', Swapper)
-Vue.component('ui-footer', UIFooter)
+import './Twitterus'
 
 new Vue({
   el: 'body',
