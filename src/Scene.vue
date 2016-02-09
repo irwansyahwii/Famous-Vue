@@ -21,13 +21,6 @@
         },
         beforeCompile: function(){
             this.$options.famousObject = FamousEngine.createScene()
-
-            if(GlobalVars.settings.rootSceneVue === null){
-                GlobalVars.settings.rootSceneVue = this
-                FamousEngine.init()
-                // console.log("GlobalVars.settings.rootSceneVue:")
-                // console.log(GlobalVars.settings.rootSceneVue)
-            }
         },
         compiled: function(){
             
