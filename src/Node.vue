@@ -46,11 +46,19 @@
                 mountPoint: {
                     type: String,
                     default: '',
-                    famousType: 'float',
+                    famousType: 'float',                    
                     target: function(){
                         return this.$options.famousObject
                     }
                 },
+                origin: {
+                    type: String,
+                    default: '',
+                    famousType: 'float',
+                    target: function(){
+                        return this.$options.famousObject
+                    }
+                },                
                 align: {
                     type: String,
                     default: '',
@@ -67,6 +75,7 @@
         }
 
         onBeforeCompile(){
+
             this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
 
             if(this.$parent.$options.famousObject.addChild){

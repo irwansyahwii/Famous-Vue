@@ -24,15 +24,30 @@
                     type: Function,
                     default: null
                 }
+
+                       
             }
 
             this.methods.set = this.set
         }
 
         set(x,y,z, transition, callback){
+            let axisValues = this.parseFloatPropertyWithComma(this.value, 'value', 0, true)
+            if(typeof x === 'undefined'){
+                x = axisValues[0]
+            }
+
+            if(typeof y === 'undefined'){
+                y = axisValues[1]
+            }
+
+            if(typeof z === 'undefined'){
+                z = axisValues[2]
+            }
+
             let transitionValue = transition || this.transition
             let callbackValue = callback || this.callback
-            
+
             this.$options.famousObject.set(x,y,z, transitionValue, callbackValue)
         }
 
@@ -51,13 +66,13 @@
         onCompiled(){
             super.onCompiled()
 
-            let setValues = this.parseFloatPropertyWithComma(this.value, 'value', 0, true)
-            let transitionValue = this.transition
-            let callbackValue = this.callback
+            // let setValues = this.parseFloatPropertyWithComma(this.value, 'value', 0, true)
+            // let transitionValue = this.transition
+            // let callbackValue = this.callback
 
-            if(setValues.length === 3){
-                this.$options.famousObject.set(setValues[0], setValues[1], setValues[2], transitionValue, callbackValue)    
-            }
+            // if(setValues.length === 3){
+            //     this.$options.famousObject.set(setValues[0], setValues[1], setValues[2], transitionValue, callbackValue)    
+            // }
             
         }
     }    

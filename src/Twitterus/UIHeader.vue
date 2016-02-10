@@ -1,9 +1,8 @@
 <template>
     <node size-mode="default, absolute" absolute-size="null,100">
         <node>
-            <dom-element :properties="{backgroundColor:'green'}"></dom-element>
-            <node v-ref:title-node>
-                <align v-ref:title-node-align-transition :transition="{duration: 1000, curve: 'easeInOut'}" ></align>
+            <dom-element classes="header"></dom-element>
+            <node v-ref:title-node align="0,0">
                 <dom-element v-ref:title-element :properties="titleProperties">{{title}}</dom-element>
             </node>
         </node>
@@ -19,7 +18,10 @@
                 titleProperties: {
                     textAlign: 'center',
                     lineHeight: '100px',
-                    fontSize: '30px'
+                    textWrap: 'none',
+                    fontSize: '30px',
+                    color: 'white',
+                    backgroundColor: 'green'
                 }
             }
         },
@@ -39,21 +41,7 @@
             this._title = "Header NIh"
         },
         compiled: function(){
-            
-            
-
-            setTimeout(()=>{
-                console.log(this.$refs.titleNodeAlignTransition)
-                // this.$refs.titleNodeAlignTransition.set = '1,1,0'
-                // this.$refs.titleNodeAlignTransition.set(1,1,0, {duration: 3000, curve: 'easeIn'})
-
-                // console.log(this)
-
-                this.title = "heloo"
-
-                // this.$data.title = "HELOOO"
-            }, 2500)
-
+                        
         }
     }
 

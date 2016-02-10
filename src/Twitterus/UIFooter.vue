@@ -6,5 +6,7 @@
     </node>    
 </template>
 <script type="text/javascript">
+
+    import data from './Data'
     
 </script>

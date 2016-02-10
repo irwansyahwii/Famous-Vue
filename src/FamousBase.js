@@ -10,6 +10,7 @@ export default class FamousBase{
             parseIntPropertyWithComma: this.parseIntPropertyWithComma,
             parseFloatPropertyWithComma: this.parseFloatPropertyWithComma,
             parsePropsValue: this.parsePropsValue,
+            doParsePropValue: this.doParsePropValue
         }             
 
     }
@@ -19,57 +20,69 @@ export default class FamousBase{
         this.parsePropsValue()
     }
 
+    doParsePropValue(propName){
+        let propInfo = this.$options.props[propName]
+
+        if(typeof propInfo.allowEmpty === 'undefined'){
+            propInfo.allowEmpty = false
+        }
+
+        if(typeof propInfo.autoAssign === 'undefined'){
+            propInfo.autoAssign = true
+        }
+
+        if(!propInfo.autoAssign){
+            return
+        }        
+
+        let propValue = []
+        if(propInfo.famousType === 'string'){
+            propValue = this.parseStringPropertyWithComma(this[propName], propName, 0)
+        }
+        if(propInfo.famousType === 'float'){
+            propValue = this.parseFloatPropertyWithComma(this[propName], propName, 0, propInfo.allowNull)
+        }
+        if(propInfo.famousType === 'object'){            
+            propValue = this[propName] 
+        }
+        if(propInfo.assign){
+            propInfo.assign.apply(this, [propValue])
+        }
+        if(propInfo.target){
+            let ucasePropName = propName.substr(0, 1).toUpperCase() + propName.substr(1, propName.length - 1)
+
+            let doAssignment = this[propName].length > 0 
+            doAssignment = doAssignment || (this[propName].length < 0 && propInfo.allowEmpty)
+
+                                
+            if(doAssignment){
+                // console.log(`Assigning ${propName} with ${propValue}`)
+                if(propValue.length === 1){                        
+                    propInfo.target.apply(this)['set' + ucasePropName](propValue[0])    
+                }
+                if(propValue.length === 2){
+                    propInfo.target.apply(this)['set' + ucasePropName](propValue[0], propValue[1])    
+                }
+                if(propValue.length === 3){
+                    propInfo.target.apply(this)['set' + ucasePropName](propValue[0], propValue[1], propValue[2])    
+                }
+
+            }
+            else{
+                // console.log(`Forbid assignment ${propName} with ${propValue}`)
+            }
+
+        }        
+    }
+
     parsePropsValue(){            
         for(let propName in this.$options.props){
 
-            let propInfo = this.$options.props[propName]
+            this.doParsePropValue(propName)
 
-            if(typeof propInfo.allowEmpty === 'undefined'){
-                propInfo.allowEmpty = false
-            }
-
-            if(typeof propInfo.autoAssign === 'undefined'){
-                propInfo.autoAssign = true
-            }
-
-            if(!propInfo.autoAssign){
-                continue
-            }
-
-            let propValue = []
-            if(propInfo.famousType === 'string'){
-                propValue = this.parseStringPropertyWithComma(this[propName], propName, 0)
-            }
-            if(propInfo.famousType === 'float'){
-                propValue = this.parseFloatPropertyWithComma(this[propName], propName, 0, propInfo.allowNull)
-            }
-            if(propInfo.assign){
-                propInfo.assign.apply(this, [propValue])
-            }
-            if(propInfo.target){
-                let ucasePropName = propName.substr(0, 1).toUpperCase() + propName.substr(1, propName.length - 1)
-
-                let doAssignment = this[propName].length > 0 
-                doAssignment = doAssignment || (this[propName].length < 0 && propInfo.allowEmpty)
-                                    
-                if(doAssignment){
-                    // console.log(`Assigning ${propName} with ${propValue}`)
-                    if(propValue.length === 1){                        
-                        propInfo.target.apply(this)['set' + ucasePropName](propValue[0])    
-                    }
-                    if(propValue.length === 2){
-                        propInfo.target.apply(this)['set' + ucasePropName](propValue[0], propValue[1])    
-                    }
-                    if(propValue.length === 3){
-                        propInfo.target.apply(this)['set' + ucasePropName](propValue[0], propValue[1], propValue[2])    
-                    }
-
-                }
-                else{
-                    // console.log(`Forbid assignment ${propName} with ${propValue}`)
-                }
-
-            }
+            this.$watch(propName, function(newVal, oldVal){
+                this.doParsePropValue(propName)
+            })
         }
     }    
 
