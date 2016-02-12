@@ -1,9 +1,9 @@
 <template>
-    <node size-mode="[default, absolute]" absolute-size="null,100">
+    <node size-mode="default, absolute" absolute-size="null,100">
         <node>
-            <dom-element classes="header" :properties="headerProperties"></dom-element>
+            <dom-element classes="header" :cssproperties="headerProperties"></dom-element>
             <node v-ref:title-node align="0,0" size-mode="absolute,absolute" absolute-size="200,100">
-                <dom-element v-ref:title-element :properties="titleProperties">{{title}}</dom-element>
+                <dom-element v-ref:title-element :cssproperties="titleProperties" content="title" ></dom-element>
             </node>
         </node>
     </node>
@@ -40,7 +40,7 @@
                 },
                 set: function(value){
                     this._title = value
-                    this.$refs.titleElement.setContent(this._title)
+                    // this.$refs.titleElement.setContent(this._title)
                 }
             }
         },
@@ -50,6 +50,9 @@
         },
         compiled: function(){
             console.log(this.$refs.titleNode.sizeMode)
+            setTimeout(()=>{
+                this.$refs.titleElement.content = "berubah"
+            }, 2500)
         }
     }
 

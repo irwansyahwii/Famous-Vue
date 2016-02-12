@@ -17,7 +17,7 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
         this.$options.propsConverter.attribute = (newVal)=>{
             let parsedValue = newVal
             if(typeof newVal === 'string'){
-                parsedValue = this.parseStringPropertyWithComma(newVal, 'attribute')
+                parsedValue = this.$options.methods.parseStringPropertyWithComma(newVal, 'attribute')
             }
 
             return parsedValue
@@ -26,7 +26,7 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
         this.$options.propsConverter.id = (newVal)=>{
             let parsedValue = newVal
             if(typeof newVal === 'string'){
-                parsedValue = this.parseStringPropertyWithComma(newVal, 'id')
+                parsedValue = this.$options.methods.parseStringPropertyWithComma(newVal, 'id')
             }
 
             return parsedValue
@@ -35,7 +35,7 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
         this.$options.propsConverter.content = (newVal)=>{
             let parsedValue = newVal
             if(typeof newVal === 'string'){
-                parsedValue = this.parseStringPropertyWithComma(newVal, 'content')
+                parsedValue = this.$options.methods.parseStringPropertyWithComma(newVal, 'content')
             }
 
             return parsedValue
@@ -43,11 +43,10 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
 
         this.$options.props.cssproperties = {
             type: Object,
-            coerce: function(newVal){
+            coerce: (newVal)=>{
 
                 if(typeof newVal === 'object'){                    
                     for(let prop in newVal){
-                        
                         this.$options.famousObject.setProperty(prop, newVal[prop])
                     }
                 }

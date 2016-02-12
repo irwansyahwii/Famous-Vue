@@ -34,10 +34,10 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
             if(typeof val ===  'string'){
                 parsedValue = this.$options.methods.parseStringPropertyWithComma(val, 'sizeMode')
 
+                if(parsedValue.length > 0){
+                    famousObject.setSizeMode.apply(famousObject, parsedValue)
+                }                        
             }
-            if(parsedValue.length > 0){
-                famousObject.setSizeMode.apply(famousObject, parsedValue)
-            }                        
 
             return famousObject.getSizeMode()                                        
         }.bind(this)

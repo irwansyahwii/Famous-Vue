@@ -1,7 +1,7 @@
 <template>
     <node differential-size="null,-200" position="0,100">
         <node>
-            <dom-element :properties="scrollerDivProperties">
+            <dom-element :cssproperties="scrollerDivProperties">
                 <div v-for="tweet in tweets">{{tweet.text}}</div>
             </dom-element>
         </node>
