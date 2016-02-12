@@ -21,12 +21,7 @@ export default class FamousBase extends VueComponentBase{
 
     createFamousProperty(propName, propInfo){
         let ucasePropName = propName.substr(0, 1).toUpperCase() + propName.substr(1, propName.length - 1)
-        let famousObject = this.famousObject || this.$options.famousObject
-        // let famousGetter = famousObject['get' + ucasePropName]
-        
-        // console.log(ucasePropName)
-
-        
+        let famousObject = this.famousObject || this.$options.famousObject        
             
         if(propInfo.coerce){
             propInfo.set = propInfo.coerce.bind(this)
@@ -36,9 +31,7 @@ export default class FamousBase extends VueComponentBase{
             let famousSetter = famousObject[prefix + ucasePropName]
 
             if(famousSetter){
-                console.log('defining setter for ' + ucasePropName)
                 propInfo.set = function(newVal){
-                    console.log('setter for ' + ucasePropName )
                     famousSetter.apply(famousObject, [newVal])
                 }
             }
@@ -100,7 +93,6 @@ export default class FamousBase extends VueComponentBase{
                         }
                         else{
                             if(typeof newVal === 'object'){
-                                console.log(newVal)
                                 if(newVal.length === 1){
                                     setter.call(famousObject, newVal[0])    
                                 }
@@ -110,6 +102,9 @@ export default class FamousBase extends VueComponentBase{
                                 if(newVal.length === 3){
                                     setter.call(this.famousObject, newVal[0], newVal[1], newVal[2])    
                                 }                                
+                            }
+                            else{
+                                setter.call(famousObject, newVal)    
                             }
                             
                         }

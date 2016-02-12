@@ -11,15 +11,20 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
 
         this.famousObject = new Node()
 
-        this.propsConverter = {
-            align: (newVal)=>{
-                let convertedValue = this.parseFloatPropertyWithComma(newVal, 'align')
-
-                return convertedValue
-            }
-        }
-
         this.createPropsFromFamousObject(this.famousObject)
+
+        this.props.sizeMode.get = function(){
+            let famousObject = this.famousObject || this.$options.famousObject
+            let currentSizeMode = famousObject.getSizeMode()
+
+            let mappings = {
+                0: 'relative',
+                1: 'absolute',
+                2: 'render',                
+            }
+
+            return [mappings[currentSizeMode[0]], mappings[currentSizeMode[1]], mappings[currentSizeMode[2]]]
+        }
 
         this.props.sizeMode.coerce =  function(val){
             let famousObject = this.famousObject || this.$options.famousObject
