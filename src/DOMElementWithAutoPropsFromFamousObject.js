@@ -45,9 +45,27 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
             type: Object,
             coerce: (newVal)=>{
 
-                if(typeof newVal === 'object'){                    
+                if(typeof newVal === 'object'){     
+                    let isAddWatch = false
+                    if(newVal.__ob__){
+                        isAddWatch = true
+
+                    }
                     for(let prop in newVal){
                         this.$options.famousObject.setProperty(prop, newVal[prop])
+
+                        if(isAddWatch){
+                            let propDescriptor = Object.getOwnPropertyDescriptor(newVal, prop)
+
+                            Object.defineProperty(newVal, prop, {
+                                get: propDescriptor.get,
+                                set: (the_val)=>{
+                                    propDescriptor.set.call(newVal, the_val)
+                                    this.$options.famousObject.setProperty(prop, the_val)
+                                }
+                            })
+                            
+                        }
                     }
                 }
 

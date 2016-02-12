@@ -3,7 +3,8 @@
         <node>
             <dom-element classes="header" :cssproperties="headerProperties"></dom-element>
             <node v-ref:title-node align="0,0" size-mode="absolute,absolute" absolute-size="200,100">
-                <dom-element v-ref:title-element :cssproperties="titleProperties" content="title" ></dom-element>
+                <dom-element v-ref:title-element :cssproperties="titleProperties" v-bind:content="test" >{{title}}</dom-element>
+                <div class="test-div">{{test}}</div>
             </node>
         </node>
     </node>
@@ -30,7 +31,8 @@
                     fontSize: '30px',
                     color: 'white',
                     backgroundColor: 'red'
-                }
+                },
+                test: 'haloo'
             }
         },
         computed: {
@@ -49,9 +51,16 @@
             this._title = "Header NIh"
         },
         compiled: function(){
-            console.log(this.$refs.titleNode.sizeMode)
-            setTimeout(()=>{
-                this.$refs.titleElement.content = "berubah"
+            console.log('before:')
+            console.log(this)
+            console.log(this.$refs.titleElement)
+            console.log(this.headerProperties)
+            setTimeout(()=>{                
+                this.headerProperties.backgroundColor = 'brown'
+                this.test = "berubah"
+                // this.headerProperties = {backgroundColor: 'red'}
+                console.log('after:')
+                console.log(this.$refs.titleElement)
             }, 2500)
         }
     }
