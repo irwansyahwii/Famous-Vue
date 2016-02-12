@@ -1,60 +1,64 @@
 #!/usr/bin/env node
+var genericCompile = require('./genericCompile')
+genericCompile('./src/index.js', './public')
 
-'use strict';
 
-var vue = require('vue')
-var browserify = require('browserify');
-var watchify = require('watchify');
-var path = require('path');
-var http = require('http');
-var fs = require('fs');
-var finalhandler = require('finalhandler');
-var serveStatic = require('serve-static');
-var chalk = require('chalk');
 
-var b = browserify(path.resolve('./src/index.js'), watchify.args);
-b.transform('vueify');
-var w = watchify(b);
+// 'use strict';
 
-var bytes, time;
-w.on('bytes', function (b) { bytes = b });
-w.on('time', function (t) { time = t });
+// var vue = require('vue')
+// var browserify = require('browserify');
+// var watchify = require('watchify');
+// var path = require('path');
+// var http = require('http');
+// var fs = require('fs');
+// var finalhandler = require('finalhandler');
+// var serveStatic = require('serve-static');
+// var chalk = require('chalk');
 
-var update = function(bundle) {
-    var didError = false;
-    var writeStream = fs.createWriteStream(path.resolve('./public/bundle.js'));
+// var b = browserify(path.resolve('./src/index.js'), watchify.args);
+// b.transform('vueify');
+// var w = watchify(b);
 
-    bundle.on('error', function (err) {
-        console.error(String(chalk.red(err)));
-        didError = true;
-        writeStream.end();
-    });
+// var bytes, time;
+// w.on('bytes', function (b) { bytes = b });
+// w.on('time', function (t) { time = t });
 
-    bundle.pipe(writeStream);
+// var update = function(bundle) {
+//     var didError = false;
+//     var writeStream = fs.createWriteStream(path.resolve('./public/bundle.js'));
 
-    writeStream.on('error', function (err) {
-        console.error(chalk.red(err));
-    });
+//     bundle.on('error', function (err) {
+//         console.error(String(chalk.red(err)));
+//         didError = true;
+//         writeStream.end();
+//     });
 
-    writeStream.on('close', function () {
-        if (!didError) {
-            console.error(chalk.cyan(bytes) + chalk.grey(' bytes written to ') + chalk.cyan(path.resolve('./public/bundle.js'))
-                + ' (' + (time / 1000).toFixed(2) + ' seconds)'
-            );
-        }
-    });
-}
+//     bundle.pipe(writeStream);
 
-update(w.bundle());
+//     writeStream.on('error', function (err) {
+//         console.error(chalk.red(err));
+//     });
 
-w.on('update', function (ids) {
-    update(w.bundle());
-});
+//     writeStream.on('close', function () {
+//         if (!didError) {
+//             console.error(chalk.cyan(bytes) + chalk.grey(' bytes written to ') + chalk.cyan(path.resolve('./public/bundle.js'))
+//                 + ' (' + (time / 1000).toFixed(2) + ' seconds)'
+//             );
+//         }
+//     });
+// }
 
-var serve = serveStatic(path.normalize('./public/'));
+// update(w.bundle());
 
-var server = http.createServer(function(req, res){
-  serve(req, res, finalhandler(req, res))
-});
+// w.on('update', function (ids) {
+//     update(w.bundle());
+// });
 
-server.listen(1618, function() {console.log(chalk.grey('serving ') + chalk.blue(path.resolve('./public/')) + chalk.grey(' on port ') + chalk.blue('1618'));});
+// var serve = serveStatic(path.normalize('./public/'));
+
+// var server = http.createServer(function(req, res){
+//   serve(req, res, finalhandler(req, res))
+// });
+
+// server.listen(1618, function() {console.log(chalk.grey('serving ') + chalk.blue(path.resolve('./public/')) + chalk.grey(' on port ') + chalk.blue('1618'));});

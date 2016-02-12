@@ -1,8 +1,8 @@
 <template>
-    <node size-mode="default, absolute" absolute-size="null,100">
+    <node size-mode="[default, absolute]" absolute-size="null,100">
         <node>
-            <dom-element classes="header"></dom-element>
-            <node v-ref:title-node align="0,0">
+            <dom-element classes="header" :properties="headerProperties"></dom-element>
+            <node v-ref:title-node align="0,0" size-mode="absolute,absolute" absolute-size="200,100">
                 <dom-element v-ref:title-element :properties="titleProperties">{{title}}</dom-element>
             </node>
         </node>
@@ -13,15 +13,23 @@
 
 
     export default {
+        events:{
+            'change-section': function(){
+                console.log('receiving changeSection event')
+            }
+        },
         data: function(){
             return {
+                headerProperties: {
+                    backgroundColor: 'green'
+                },
                 titleProperties: {
                     textAlign: 'center',
                     lineHeight: '100px',
                     textWrap: 'none',
                     fontSize: '30px',
                     color: 'white',
-                    backgroundColor: 'green'
+                    backgroundColor: 'red'
                 }
             }
         },
@@ -41,7 +49,7 @@
             this._title = "Header NIh"
         },
         compiled: function(){
-                        
+            console.log(this.$refs.titleNode.sizeMode)
         }
     }
 

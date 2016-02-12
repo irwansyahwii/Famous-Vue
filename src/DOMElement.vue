@@ -42,9 +42,7 @@
                     default: {},
                     famousType: 'object',
                     assign: function(value){
-                        console.log(value)
                         for (let key in value){
-                            console.log(key)
                             this.$options.famousObject.setProperty(key, value[key]);
                         }
                     }
