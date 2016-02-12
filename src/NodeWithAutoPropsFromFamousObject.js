@@ -8,12 +8,13 @@ var Node = famous.core.Node
 export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
     constructor(){
         super()
+    }
 
-        this.famousObject = new Node()
+    onInit(){
+        this.$options.famousObject = new Node()
 
-        this.createPropsFromFamousObject(this.famousObject)
-
-        this.props.sizeMode.get = function(){
+        this.$options.methods.createPropsFromFamousObject.call(this, this.$options.famousObject)
+        this.$options.props.sizeMode.get = function(){
             let famousObject = this.famousObject || this.$options.famousObject
             let currentSizeMode = famousObject.getSizeMode()
 
@@ -26,12 +27,12 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
             return [mappings[currentSizeMode[0]], mappings[currentSizeMode[1]], mappings[currentSizeMode[2]]]
         }
 
-        this.props.sizeMode.coerce =  function(val){
+        this.$options.props.sizeMode.coerce =  function(val){
             let famousObject = this.famousObject || this.$options.famousObject
 
             let parsedValue = val
             if(typeof val ===  'string'){
-                parsedValue = this.parseStringPropertyWithComma(val, 'sizeMode')
+                parsedValue = this.$options.methods.parseStringPropertyWithComma(val, 'sizeMode')
 
             }
             if(parsedValue.length > 0){
@@ -55,6 +56,8 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
         }
 
         this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
+
+        // console.log(this)
 
         if(this.$parent.$options.famousObject.addChild){
             this.$parent.$options.famousObject.addChild(this.$options.famousObject)

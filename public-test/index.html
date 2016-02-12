@@ -31,7 +31,22 @@
             position="200, 100, 10"
             scale="4,2,1"
             proportional-size="200,400"
-            location="from index.html"></node>
+            location="from index.html">
+
+        </node>
+
+        <node size-mode="absolute,absolute, render" :opacity="0.5" align="0.5,0.5" 
+            position="200, 100, 10"
+            scale="4,2,1"
+            proportional-size="200,400"
+            location="from index.html">
+
+        </node>
+        
+        <node v-ref:domnode size-mode="absolute,absolute" absolute-size="200, 200">
+            <dom-element v-ref:test-dom :properties="{backgroundColor:'red'}">
+            </dom-element>        
+        </node>
         <script src="bundle.js"></script>
     </body>
 </html>

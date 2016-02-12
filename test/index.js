@@ -10,7 +10,7 @@ new Vue({
   methods:{
     testNode: function(){
         this.$refs.testNode.sizeMode = 'render,absolute,default'    
-        assert.equal(this.$refs.testNode.sizeMode[0], 'render', 'sizeMode[0] failed')
+        assert.equal(this.$refs.testNode.sizeMode[0], 'render')
         assert.equal(this.$refs.testNode.sizeMode[1], 'absolute')
         assert.equal(this.$refs.testNode.sizeMode[2], 'relative')
 
@@ -94,11 +94,66 @@ new Vue({
         assert.equal(this.$refs.testNode.position[0], 77)
         assert.equal(this.$refs.testNode.position[1], 11)
         assert.equal(this.$refs.testNode.position[2], 98)
+
+        console.info('end of testNode')
+    },
+    testDOMElement: function(){
+        assert.equal(typeof this.$refs.testDom.value, 'object')
+        assert.equal(typeof this.$refs.testDom.onUpdate, 'function')
+        assert.equal(typeof this.$refs.testDom.onMount, 'function')
+        assert.equal(typeof this.$refs.testDom.onDismount, 'function')
+        assert.equal(typeof this.$refs.testDom.onShow, 'function')
+
+        this.$refs.testDom.cutOutState = true
+        this.$refs.testDom.cutOutState = false
+
+        assert.equal(typeof this.$refs.testDom.onTransformChange, 'function')
+        assert.equal(typeof this.$refs.testDom.onSizeChange, 'function')
+        assert.equal(typeof this.$refs.testDom.onOpacityChange, 'function')
+        assert.equal(typeof this.$refs.testDom.onAddUIEvent, 'function')
+        assert.equal(typeof this.$refs.testDom.onRemoveUIEvent, 'function')
+        assert.equal(typeof this.$refs.testDom.preventDefault, 'function')
+        assert.equal(typeof this.$refs.testDom.allowDefault, 'function')
+        assert.equal(typeof this.$refs.testDom.onSizeModeChange, 'function')
+
+        assert.equal(typeof this.$refs.testDom.renderSize, 'object')
+
+        this.$refs.testDom.addClass('button')
+        assert.equal(this.$refs.testDom.value.classes[1], 'button')
+        assert.equal(this.$refs.testDom.hasClass('button'), true)
+
+        this.$refs.testDom.removeClass('button')
+        assert.equal(this.$refs.testDom.value.classes.length, 1)
+        assert.equal(this.$refs.testDom.hasClass('button'), false)
+
+        this.$refs.testDom.attributes = {href:'localhost'}
+        assert.equal(this.$refs.testDom.value.attributes.href, 'localhost')
+
+        this.$refs.testDom.cssproperties = {
+            backgroundColor: 'green'
+        }
+        assert.equal(this.$refs.testDom.value.styles.backgroundColor, 'green')
+
+        this.$refs.testDom.id = "divMain"
+        assert.equal(this.$refs.testDom.value.id, 'divMain')
+
+        this.$refs.testDom.content = "haloo"
+
+        assert.equal(this.$refs.testDom.value.content, 'haloo')
+
+        assert.equal(typeof this.$refs.testDom.on, 'function')
+        assert.equal(typeof this.$refs.testDom.onReceive, 'function')
+
+        this.$refs.domnode.align = [0.5, 0.7]
+        
+
+        console.info('end of testDOMElement')
     }
   },
   ready: function(){    
 
     this.testNode()
+    this.testDOMElement()
 
 
     console.info('End of tests')

@@ -10,13 +10,19 @@ export default class FamousBase extends VueComponentBase{
         this.props = {}
 
         this.methods.createFamousProperty = this.createFamousProperty
-        this.methods.createFamousMethods = this.createFamousMethods        
+        this.methods.createFamousMethods = this.createFamousMethods    
+        this.methods.createPropsFromFamousObject = this.createPropsFromFamousObject    
         
         this.methods.parseStringPropertyWithComma = this.parseStringPropertyWithComma
         this.methods.parseIntPropertyWithComma = this.parseIntPropertyWithComma
         this.methods.parseFloatPropertyWithComma = this.parseFloatPropertyWithComma
         this.methods.parsePropsValue = this.parsePropsValue
         this.methods.doParsePropValue = this.doParsePropValue
+        this.methods.getRealFamousObject = this.getRealFamousObject
+    }
+
+    getRealFamousObject(){
+        return (this.$options && this.$options.famousObject) || this.famousObject
     }
 
     createFamousProperty(propName, propInfo){
@@ -24,29 +30,29 @@ export default class FamousBase extends VueComponentBase{
         let famousObject = this.famousObject || this.$options.famousObject        
             
         if(propInfo.coerce){
-            propInfo.set = propInfo.coerce.bind(this)
+            propInfo.set = propInfo.coerce.bind(this)            
         }else{
             let famousObject = this.famousObject || this.$options.famousObject
             let prefix = 'set'
             let famousSetter = famousObject[prefix + ucasePropName]
 
             if(famousSetter){
-                propInfo.set = function(newVal){
+                propInfo.set = function(newVal){                    
                     famousSetter.apply(famousObject, [newVal])
                 }
             }
         }
 
-        if(!propInfo.get){
-            propInfo.get = function(){
-                let famousObject = this.famousObject || this.$options.famousObject
-                let prefix = 'get'
-                if(propInfo.noGetPrefix){
-                    prefix = ''
-                }
-                let famousGetter = famousObject[prefix + ucasePropName].bind(famousObject)
+        let prefix = 'get'
+        if(propInfo.noGetPrefix){
+            prefix = ''
+        }
+        let famousGetter = famousObject[prefix + ucasePropName]
 
-                return famousGetter()                    
+        if(famousGetter && !propInfo.get){
+            propInfo.get = function(){
+
+                return famousGetter.call(famousObject)
             }                
         }
 
@@ -56,38 +62,51 @@ export default class FamousBase extends VueComponentBase{
     }
 
     createFamousMethods(methodName){
-        this[methodName] = ()=>{
-            let method = this.$options.famousObject[methodName].bind(this.$options.famousObject)
+        this[methodName] = function(){
+            let method = this.$options.famousObject[methodName]
 
-            return method()
-        }
+            return method.apply(this.$options.famousObject, arguments)
+        }.bind(this)
     }
 
-    createPropsFromFamousObject(famousObject){
+    createPropsFromFamousObject(famousObject){        
         for(let memberName in famousObject){
-            if(memberName.indexOf('get') === 0){
-                let propName = memberName.replace('get', '')
+            if(memberName.indexOf('get') === 0 || memberName.indexOf('set') === 0 ){
+                
+
+                let propName = ''
+                if(memberName.indexOf('get') === 0){
+                    propName = memberName.replace('get', '')
+                }
+                else{
+                    propName = memberName.replace('set', '')
+                }
+                
                 let ucasePropName = propName.substr(0, 1).toUpperCase() + propName.substr(1, propName.length - 1)
                 let lcasePropName = propName.substr(0, 1).toLowerCase() + propName.substr(1, propName.length - 1)
                 let propInfo = {}
-                this.props[lcasePropName] = propInfo
+
+                
+
+                this.$options.props[lcasePropName] = propInfo
 
                 let setter = famousObject['set'+ucasePropName]
 
                 if(setter){                    
                     propInfo.coerce = (newVal)=>{
-                        let converter = this.propsConverter[lcasePropName]
+
+                        let converter = this.$options.propsConverter[lcasePropName]
                         if(converter){
                             newVal = converter(newVal)
                         }
                         else{
                             if(typeof newVal === 'string'){
-                                let convertedValue = this.parseFloatPropertyWithComma(newVal, lcasePropName)
+                                let convertedValue = this.$options.methods.parseFloatPropertyWithComma(newVal, lcasePropName)
                                 newVal = convertedValue                                
                             }
                         }
 
-                        let customSetter = this.customSetter[lcasePropName]
+                        let customSetter = this.$options.customSetter[lcasePropName]
                         if(customSetter){
                             customSetter(newVal)
                         }
@@ -97,10 +116,10 @@ export default class FamousBase extends VueComponentBase{
                                     setter.call(famousObject, newVal[0])    
                                 }
                                 if(newVal.length === 2){
-                                    setter.call(this.famousObject, newVal[0], newVal[1])    
+                                    setter.call(famousObject, newVal[0], newVal[1])    
                                 }                                
                                 if(newVal.length === 3){
-                                    setter.call(this.famousObject, newVal[0], newVal[1], newVal[2])    
+                                    setter.call(famousObject, newVal[0], newVal[1], newVal[2])    
                                 }                                
                             }
                             else{
@@ -120,7 +139,7 @@ export default class FamousBase extends VueComponentBase{
     onBeforeCompile()
     {        
         for(let memberName in this.$options.famousObject){
-            if(memberName.indexOf('_') < 0 && memberName.indexOf('get') < 0){
+            if(memberName.indexOf('_') < 0 && memberName.indexOf('get') < 0 && memberName.indexOf('set') < 0){
                 this.createFamousMethods(memberName)
             }
             
