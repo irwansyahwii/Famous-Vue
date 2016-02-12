@@ -117,10 +117,6 @@ export default class FamousBase extends VueComponentBase{
         }        
     }
 
-    // onCompiled(){
-    //     this.parsePropsValue()
-    // }
-
     onBeforeCompile()
     {        
         for(let memberName in this.$options.famousObject){
@@ -172,7 +168,6 @@ export default class FamousBase extends VueComponentBase{
 
                                 
             if(doAssignment){
-                // console.log(`Assigning ${propName} with ${propValue}`)
                 if(propValue.length === 1){                        
                     propInfo.target.apply(this)['set' + ucasePropName](propValue[0])    
                 }
@@ -184,10 +179,6 @@ export default class FamousBase extends VueComponentBase{
                 }
 
             }
-            else{
-                // console.log(`Forbid assignment ${propName} with ${propValue}`)
-            }
-
         }        
     }
 
