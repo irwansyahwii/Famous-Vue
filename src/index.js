@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import FamousVue from './FamousVue'
-import './Twitterus'
+// import './Twitterus'
+import './Carousel'
 
 Vue.config.debug = true
 

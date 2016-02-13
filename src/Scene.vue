@@ -19,12 +19,9 @@
                 type: String
             }
         },
-        beforeCompile: function(){
+        init: function (argument) {
             this.$options.famousObject = FamousEngine.createScene()
-        },
-        compiled: function(){
-            
-        }        
+        }
     }
 
     export default sceneVue

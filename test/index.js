@@ -2,6 +2,7 @@ import Vue from 'vue'
 import FamousVue from '../src/FamousVue'
 import '../src/Twitterus'
 import assert from 'assert'
+import '../src/Carousel'
 
 Vue.config.debug = true
 
