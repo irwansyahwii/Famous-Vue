@@ -6,6 +6,10 @@ export default class VueComponentBase{
             this.init = this.onInit
             this.methods.onInit = this.onInit
         }
+        if(this.onCreated){
+            this.created = this.onCreated
+            this.methods.onCreated = this.onCreated
+        }
         if(this.onBeforeCompile){
             this.beforeCompile = this.onBeforeCompile    
             this.methods.onBeforeCompile = this.onBeforeCompile
