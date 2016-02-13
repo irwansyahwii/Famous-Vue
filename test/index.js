@@ -145,6 +145,9 @@ new Vue({
         assert.equal(typeof this.$refs.testDom.onReceive, 'function')
 
         this.$refs.domnode.align = [0.5, 0.7]
+
+        this.$refs.testDom.classes = "button"
+        assert.equal(this.$refs.testDom.value.classes[1], 'button')
         
 
         console.info('end of testDOMElement')

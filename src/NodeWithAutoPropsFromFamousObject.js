@@ -13,6 +13,22 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
     onInit(){
         this.$options.famousObject = new Node()
 
+        this.$options.famousObject.onMount = (path)=>{
+            this.location = this.$options.famousObject.getLocation()
+            this.id = this.location
+            this.$dispatch('on-mount', path)
+        }
+
+        this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
+
+        if(this.$parent.$options.famousObject.addChild){
+            this.$parent.$options.famousObject.addChild(this.$options.famousObject)
+        }
+        else {
+            GlobalVars.settings.rootScene.addChild(this.$options.famousObject)   
+        }        
+
+
         this.$options.methods.createPropsFromFamousObject.call(this, this.$options.famousObject)
         this.$options.props.sizeMode.get = function(){
             let famousObject = this.famousObject || this.$options.famousObject
@@ -44,26 +60,5 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
 
     }
 
-    onBeforeCompile()
-    {        
 
-        super.onBeforeCompile()
-
-        this.$options.famousObject.onMount = (path)=>{
-            this.location = this.$options.famousObject.getLocation()
-            this.id = this.location
-            this.$dispatch('on-mount', path)
-        }
-
-        this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
-
-        // console.log(this)
-
-        if(this.$parent.$options.famousObject.addChild){
-            this.$parent.$options.famousObject.addChild(this.$options.famousObject)
-        }
-        else {
-            GlobalVars.settings.rootScene.addChild(this.$options.famousObject)   
-        }        
-    }
 }

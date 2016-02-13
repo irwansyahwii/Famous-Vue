@@ -11,7 +11,16 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
     }
 
     onInit(){
-        this.$options.node = new Node()
+
+        this.$options.node = null
+
+        if(this.$parent.$options.famousObject.addChild){
+            this.$options.node = this.$parent.$options.famousObject
+        }
+        else {
+            this.$options.node = GlobalVars.settings.rootScene.addChild()   
+        }        
+
         this.$options.famousObject = new DOMElement(this.$options.node)
 
         this.$options.propsConverter.attribute = (newVal)=>{
@@ -38,8 +47,22 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
                 parsedValue = this.$options.methods.parseStringPropertyWithComma(newVal, 'content')
             }
 
-            return parsedValue
+            return (parsedValue || '')
         }
+
+        this.$options.props.classes = {
+            type: String,
+            coerce: (newVal)=>{
+                let parsedValue = newVal
+                if(typeof newVal === 'string'){     
+                    parsedValue = this.$options.methods.parseStringPropertyWithComma(newVal, 'classes')
+                    for(let i = 0; i < parsedValue.length; i++){
+                        this.$options.famousObject.addClass(parsedValue[0])
+                    }
+                }
+                return newVal
+            }
+        }        
 
         this.$options.props.cssproperties = {
             type: Object,
@@ -77,8 +100,27 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
             type: Object,
             coerce: function(newVal){
                 if(typeof newVal === 'object'){
+                    let isAddWatch = false
+                    if(newVal.__ob__){
+                        isAddWatch = true
+
+                    }
+
                     for(let attribute in newVal){
                         this.$options.famousObject.setAttribute(attribute, newVal[attribute])
+
+                        if(isAddWatch){
+                            let propDescriptor = Object.getOwnPropertyDescriptor(newVal, prop)
+
+                            Object.defineProperty(newVal, prop, {
+                                get: propDescriptor.get,
+                                set: (the_val)=>{
+                                    propDescriptor.set.call(newVal, the_val)
+                                    this.$options.famousObject.setAttribute(prop, the_val)
+                                }
+                            })
+                            
+                        }                        
                     }
                 }
 
@@ -88,18 +130,4 @@ export default class DOMElementWithAutoPropsFromFamousObject extends FamousBase{
 
         this.$options.methods.createPropsFromFamousObject.call(this, this.$options.famousObject)        
     }
-
-    onBeforeCompile()
-    {   
-        super.onBeforeCompile()
-
-        this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
-
-        if(this.$parent.$options.famousObject.addChild){
-            this.$parent.$options.famousObject.addChild(this.$options.node)
-        }
-        else {
-            GlobalVars.settings.rootScene.addChild(this.$options.node)   
-        }        
-    }    
 }
