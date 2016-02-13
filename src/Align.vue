@@ -18,7 +18,9 @@
                 },
                 transition: {
                     type: Object,
-                    default: {}
+                    default: function(){
+                        return {}
+                    }
                 },
                 callback:{
                     type: Function,
@@ -63,18 +65,6 @@
 
         }
 
-        onCompiled(){
-            super.onCompiled()
-
-            // let setValues = this.parseFloatPropertyWithComma(this.value, 'value', 0, true)
-            // let transitionValue = this.transition
-            // let callbackValue = this.callback
-
-            // if(setValues.length === 3){
-            //     this.$options.famousObject.set(setValues[0], setValues[1], setValues[2], transitionValue, callbackValue)    
-            // }
-            
-        }
     }    
 
     export default new AlignVue()

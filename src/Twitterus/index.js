@@ -3,9 +3,11 @@ import UIHeader from './UIHeader.vue'
 import Swapper from './Swapper.vue'
 import UIFooter from './UIFooter.vue'
 import Twitterus from './Twitterus.vue'
+import NavButton from './NavButton.vue'
 
 
 Vue.component('ui-header', UIHeader)
 Vue.component('swapper', Swapper)
 Vue.component('ui-footer', UIFooter)
 Vue.component('twitterus', Twitterus)
+Vue.component('nav-button', NavButton)

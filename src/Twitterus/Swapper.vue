@@ -13,7 +13,7 @@
         data: function(){
             return {
                 scrollerDivProperties: {
-                    backgroundColor: 'blue',
+                    
                     overflow: 'auto'                    
                 },
                 tweets: []
