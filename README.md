@@ -8,7 +8,7 @@
 
 ```bash
 git clone https://github.com/irwansyahwii/Famous-Vue
-cd engine-seed
+cd Famous-Vue
 # rm -rf .git && git init && git commit -m "Make it so" # optionally reset git history
 npm i # install dependencies
 ```
