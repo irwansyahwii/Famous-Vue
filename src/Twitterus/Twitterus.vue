@@ -20,7 +20,6 @@
         methods: {
             onNavButtonClicked: function(id){
                 let to = id
-                console.log('change-section to ' + id)
                 this.$broadcast('change-section', {
                     from: this.currentSection,
                     to: to
@@ -31,9 +30,6 @@
             }
         },
         ready: function(){
-            this.$refs.mainNode.onReceive = (event, eventData)=>{
-                console.log('Twitterus::onReceive')
-            }            
             this.$broadcast('change-section', {
                 from: null,
                 to: this.currentSection

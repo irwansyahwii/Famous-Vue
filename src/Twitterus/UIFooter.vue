@@ -21,7 +21,6 @@
         },
         methods: {
             navButtonClicked: function(event){
-                console.log(event)
                 this.$dispatch('nav-button-clicked', event.node.getId())
             }
         },

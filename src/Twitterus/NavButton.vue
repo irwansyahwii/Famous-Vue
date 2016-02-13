@@ -48,9 +48,6 @@
         },
         init: function(){
             this.$options.famousObject = this.$parent.$options.famousObject
-
-
-            // this.$refs.mainNode.addUIEvents('click')
         },
         compiled: function(){
             this.$refs.mainNode.$options.famousObject.getId = ()=>{

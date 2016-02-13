@@ -1,28 +1,34 @@
 <template>
     <node differential-size="null,-200" position="0,100">
         <node>
-            <dom-element :cssproperties="scrollerDivProperties">
-                <div v-for="tweet in tweets">{{tweet.text}}</div>
-            </dom-element>
+            <dom-element v-ref:el classes="swapper" ></dom-element>
+            <tweets-section v-for="section in sections" v-bind:id="$index">
+                <align v-ref:align-section></align>
+            </tweets-section>
         </node>
     </node>
 </template>
 
 <script type="text/javascript">
+    import data from './Data'
+
     export default {
         data: function(){
             return {
-                scrollerDivProperties: {
-                    
-                    overflow: 'auto'                    
-                },
-                tweets: []
+                currentSection: null,
+                sections: data.sections
             }
         },
-        ready: function(){
-            for(let i = 1; i <= 100; i++){
-                this.tweets.push({text: `Tweet ${i}`})
+        events: {
+            'change-section': function(){
+                console.log('changing section...')
+                console.log(this.$refs)
             }
+        },
+        init: function(){
+            this.$options.famousObject = this.$parent.$options.famousObject
+        },
+        ready: function(){
         }        
     }
 </script>
