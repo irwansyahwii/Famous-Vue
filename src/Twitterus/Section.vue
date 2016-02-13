@@ -24,9 +24,6 @@
         },
         events: {
             'change-section': function(eventData){
-                console.log(eventData)
-                console.log(this.$refs)
-
                 if(this.id === eventData.to){
                     this.$refs.alignSection.set(0, 0, 0, {duration: 500})
                 }
