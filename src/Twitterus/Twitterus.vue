@@ -1,8 +1,8 @@
 <template>
-    <node v-ref:main-node v-on:on-mount="mainNodeOnMount">
+    <node v-ref:main-node>
         <ui-header></ui-header>
         <swapper></swapper>
-        <ui-footer></ui-footer>
+        <ui-footer v-on:nav-button-clicked="onNavButtonClicked"></ui-footer>
     </node>
 </template>
 <script type="text/javascript">
@@ -17,21 +17,23 @@
                 currentSection: data.sections[0].id
             }
         },
-        methods:{
-            mainNodeOnMount: function(path){       
-                // let mainNodeLocation = this.$refs.mainNode.$options.famousObject.getLocation()
+        methods: {
+            onNavButtonClicked: function(id){
+                let to = id
+                console.log('change-section to ' + id)
+                this.$broadcast('change-section', {
+                    from: this.currentSection,
+                    to: to
+                })
 
-                // if(mainNodeLocation === path){
-                //     this.$broadcast('change-section', {
-                //         from: null,
-                //         to: this.currentSection
-                //     })                    
-                // }
+                this.currentSection = to
+
             }
         },
-        compiled: function(){
-        },
         ready: function(){
+            this.$refs.mainNode.onReceive = (event, eventData)=>{
+                console.log('Twitterus::onReceive')
+            }            
             this.$broadcast('change-section', {
                 from: null,
                 to: this.currentSection

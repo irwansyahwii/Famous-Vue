@@ -19,6 +19,10 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
             this.$dispatch('on-mount', path)
         }
 
+        this.$options.famousObject.onReceive = (event, eventData)=>{
+            this.$dispatch(event, eventData)
+        }
+
         this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
 
         if(this.$parent.$options.famousObject.addChild){
