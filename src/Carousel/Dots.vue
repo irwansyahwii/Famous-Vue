@@ -2,7 +2,7 @@
     <node v-ref:main-node size-mode="absolute,absolute" absolute-size="null, 20" 
         position="0,-50,0" align="0.5, 1,0" mount-point=".5, 1,0">
         <resize :callback="onResize"></resize>
-        <dot v-for="i in numPages" :position="getDotPosition($index)" :width="dotWidth"></dot>
+        <dot v-for="i in numPages" :position="getDotPosition($index)" :index="$index" :width="dotWidth"></dot>
     </node>
 </template>
 

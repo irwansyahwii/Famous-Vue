@@ -1,5 +1,5 @@
 <template>
-    <node v-ref:main-node v-bind:size-mode="sizeMode" v-bind:absolute-size="absoluteSize" 
+    <node v-ref:node1 v-bind:size-mode="sizeMode" v-bind:absolute-size="absoluteSize" 
         v-bind:position="position" v-bind:align="align" v-bind:mount-point="mountPoint">
         <dom-element v-ref:el :cssproperties="elProperties" v-bind:content="direction === 1 ? '>' : '<' ">
         </dom-element>
@@ -12,10 +12,6 @@
             direction: {
                 type: Number
             },
-            init: function(){
-                this.$options.famousObject = this.$parent.$options.famousObject
-                this.$refs.mainNode.addUIEvent('click')
-            },            
             sizeMode:{
                 type: String
             },
@@ -44,5 +40,12 @@
                 }
             }
         },
+        init: function(){
+            this.$options.famousObject = this.$parent.$options.famousObject
+        },               
+        compiled: function(){
+            this.$refs.node1.addUIEvent('click')            
+        }     
+
     }
 </script>

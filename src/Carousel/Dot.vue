@@ -12,6 +12,9 @@
             },
             position:{
                 type: Array
+            },
+            index: {
+                type: Number
             }
         },
         data: function(){
@@ -21,6 +24,16 @@
                     border: '2px solid white',
                     boxSizing: 'border-box',
                     backgroundColor: 'transparent'
+                }
+            }
+        },
+        events: {
+            'page-change': function(oldIndex, newIndex){
+                if(newIndex !== this.index){
+                    this.deselect()
+                }            
+                else{
+                    this.select()
                 }
             }
         },
