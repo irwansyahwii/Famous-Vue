@@ -14,6 +14,13 @@ npm i # install dependencies
 ```
 
 ---
+### Examples
+There are two examples inside the src folder:
+
+1. src/Twitterus
+2. src/Carousel
+
+---
 
 ###Development
 Run the dev server with ```npm run dev```
