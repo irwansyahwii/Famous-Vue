@@ -23,10 +23,11 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
             this.$dispatch(event, eventData)
         }
 
-        this.$parent.$options.famousObject = this.$parent.$options.famousObject || {}
+        let parentFamousObject = (this.$parent.$options.famousObject || (this.$parent.$parent && this.$parent.$parent.$options.famousObject )) || {}
 
-        if(this.$parent.$options.famousObject.addChild){
-            this.$parent.$options.famousObject.addChild(this.$options.famousObject)
+
+        if(parentFamousObject.addChild){
+            parentFamousObject.addChild(this.$options.famousObject)
         }
         else {
             GlobalVars.settings.rootScene.addChild(this.$options.famousObject)   
@@ -62,7 +63,11 @@ export default class NodeWithAutoPropsFromFamousObject extends FamousBase{
             return famousObject.getSizeMode()                                        
         }.bind(this)
 
+
+        // this.mountPoint = "0,0,0"
     }
+
+    
 
 
 }
