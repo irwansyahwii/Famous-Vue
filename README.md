@@ -14,6 +14,18 @@ npm i # install dependencies
 ```
 
 ---
+### Examples
+There are two examples inside the src folder:
+
+1. src/Twitterus
+2. src/Carousel
+
+---
+
+### Tutorials
+
+1. [Layouting in Famous-Vue](https://medium.com/@irwansyah/layouting-in-famous-vue-b834f089886b#.fkzh48w8w)
+---
 
 ###Development
 Run the dev server with ```npm run dev```
