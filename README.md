@@ -22,6 +22,11 @@ There are two examples inside the src folder:
 
 ---
 
+### Tutorials
+
+1. [Layouting in Famous-Vue](https://medium.com/@irwansyah/layouting-in-famous-vue-b834f089886b#.fkzh48w8w)
+---
+
 ###Development
 Run the dev server with ```npm run dev```
 
